@@ -32,7 +32,6 @@
 # or implied, of GRNET S.A.
 
 import os
-import rados
 from hashlib import new as newhasher
 
 
@@ -48,6 +47,7 @@ def bootstrap_backend_storage(**params):
         if not os.path.isdir(path):
             raise RuntimeError("Cannot open path '%s'" % (path,))
     elif storageType.lower() == 'rados':
+        import rados
         cluster = rados.Rados(conffile=params['rados_ceph_conf'])
         cluster.connect()
         if not cluster.pool_exists(params['blockpool']):
